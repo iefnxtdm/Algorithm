@@ -13,7 +13,8 @@ enum class Form{
     FLOAT,
     INT_ARRAY,
     FLOAT_ARRAY,
-    USER
+    USER,
+    NONE
 };
 
 }

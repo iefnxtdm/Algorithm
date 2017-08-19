@@ -8,7 +8,8 @@
 
 #include <string>
 #include "type.h"
-#include 
+#include "string_util.h"
+namespace goodcoder{
 class TypeInt : public Type{
 public:
     TypeInt(const std::string& str, int len){
@@ -20,7 +21,7 @@ public:
 private:
     int* var;
 };
-class TypeFloat : public type{
+class TypeFloat : public Type{
 public:
     TypeFloat(const std::string& str, int len){
         _str_type = Float;
@@ -31,9 +32,9 @@ public:
 private:
     float* var;
 };
-class TypeStr : public type{
+class TypeStr : public Type{
 public:
-    TypeInt(const std::string& str, int len){
+    TypeStr(const std::string& str){
         _str_type = STRING;
         _len = len;
         
@@ -42,4 +43,5 @@ public:
 private:
     char* var;
 };
+}
 #endif

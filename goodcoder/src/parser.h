@@ -10,6 +10,7 @@
 #include<memory>
 #include"string_util.h"
 #include"type_spec.h"
+#include "parse_struct.h"
 using std::vector;
 namespace goodcoder{
 
@@ -19,18 +20,18 @@ public:
         _store = make_shared(new vector<Type*>());  
     }
     ~Parser(){
-        for(auto it:_store){
+        for(auto it : *_store){
             delete it;
         }
         _store->clear();
     }
     int parse(const std::string& line);
-    int judge_int(const std::string& str, Type* store);
-    int judge_str(const std::string& str, Type* store);
-    int judge_float(const std::string& str, Type* store);
-    int judge_array(const std::string& str, Type* store);
+    int judge_int(const std::string& str);
+    int judge_str(const std::string& str);
+    int judge_float(const std::string& str);
+    int judge_array(const std::string& str, Form& f);
     //TODO
-    int judge_user(const std::string& str, Type* store);
+    int judge_user(const std::string& str);
 private:
     Parser(const Parser&) = delete;
     Parser& operator=(const Parser&) = delete;

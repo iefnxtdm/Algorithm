@@ -8,17 +8,21 @@
 
 #include <string>
 #include "parse_struct.h"
+namespace goodcoder{
 class Type{
 public:
-    Type(const std::string& str);
+    Type(){
+        _str_type = NONE;
+        _len = 0;
+    }
     virtual ~Type(){};
 
-    Type(cont Type&) = delete;
+    Type(const Type&) = delete;
     Type& operator=(const Type&) = delete;
-    virtual void print() = override;
+    virtual void print() = 0;
 private:
     Form _str_type;
     int _len;
 };
-
+}
 #endif
