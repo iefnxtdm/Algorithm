@@ -11,7 +11,7 @@
 class StringUtil{
 public:
 
-    /// @brief SplitString ·Ö¸î×Ö·û
+    /// @brief SplitString ï¿½Ö¸ï¿½ï¿½Ö·ï¿½
     ///
     /// @param src
     /// @param delimiter
@@ -19,7 +19,7 @@ public:
     /// @param field_num
     ///
     /// @return
-    static size_t SplitString(const std::string& src,
+    static size_t splits_tring(const std::string& src,
                               const std::string& delimiter,
                               std::vector<std::string>* fields,
                               int field_num) {
@@ -41,7 +41,7 @@ public:
         return fields->size();
     }
 
-    /// @brief str_to_int ×ª»»Îªint
+    /// @brief str_to_int 
     ///
     /// @param str
     ///
@@ -53,7 +53,7 @@ public:
         return num;
     }
 
-    /// @brief str_to_float ×ª»»Îªfloat
+    /// @brief str_to_float ×ªï¿½ï¿½Îªfloat
     ///
     /// @param str
     ///
@@ -61,10 +61,10 @@ public:
     static float str_to_float(const std::string& str){
         std::istringstream ss(str);
         float num;
-        ss>>float;
-        return float;
+        ss>>num;
+        return num;
     }
 
 };
-
+}
 #endif

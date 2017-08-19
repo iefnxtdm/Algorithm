@@ -5,7 +5,9 @@
 /// @date 2017-07-31
 #ifndef GOODCODER_SRC_TYPE_H
 #define GOODCODER_SRC_TYPE_H
+
 #include <string>
+#include "parse_struct.h"
 class Type{
 public:
     Type(const std::string& str);
@@ -13,11 +15,10 @@ public:
 
     Type(cont Type&) = delete;
     Type& operator=(const Type&) = delete;
-    virtual void print() = 0;
+    virtual void print() = override;
 private:
-    string _str_type;
+    Form _str_type;
     int _len;
-    bool _is_array;
-}
+};
 
 #endif

@@ -5,33 +5,36 @@
 /// @date 2017-07-31
 #ifndef GOODCODER_SRC_PARSER_H
 #define GOODCODER_SRC_PARSER_H
+
 #include<vector>
+#include<memory>
+#include"string_util.h"
+#include"type_spec.h"
 using std::vector;
 namespace goodcoder{
 
 class Parser{
 public:
     Parser(){
-        _store = new vector<Type*>();  
+        _store = make_shared(new vector<Type*>());  
     }
     ~Parser(){
         for(auto it:_store){
             delete it;
         }
-        _store.clear();
-        delete _store;
+        _store->clear();
     }
-    bool parse(const std::string& line);
-    bool judge_int(const std::string& str);
-    bool judge_str(const std::string& str);
-    bool judge_float(const std::string& str);
-    bool judge_array(const std::string& str);
+    int parse(const std::string& line);
+    int judge_int(const std::string& str, Type* store);
+    int judge_str(const std::string& str, Type* store);
+    int judge_float(const std::string& str, Type* store);
+    int judge_array(const std::string& str, Type* store);
     //TODO
-    bool judge_user(const std::string& str);
+    int judge_user(const std::string& str, Type* store);
 private:
     Parser(const Parser&) = delete;
     Parser& operator=(const Parser&) = delete;
-    vector<Type*> *_store;
+    std::shared_ptr<std::vector<Type*>> _store;
 };
 
 }
