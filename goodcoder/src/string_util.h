@@ -46,11 +46,10 @@ public:
     /// @param str
     ///
     /// @return
-    static int str_to_int(const std::string& str){
-        std::istringstream ss(str);
-        int num;
+    static int str_to_int(const std::string& str, int &num){
+        std::stringstream ss(str);
         ss>>num;
-        return num;
+        return 0;
     }
 
     /// @brief str_to_float ת��Ϊfloat
@@ -58,13 +57,12 @@ public:
     /// @param str
     ///
     /// @return
-    static float str_to_float(const std::string& str){
-        std::istringstream ss(str);
-        float num;
+    static int str_to_float(const std::string& str, float &num){
+        std::stringstream ss(str);
         ss>>num;
-        return num;
+        return 0;
     }
 
 };
-}
+
 #endif

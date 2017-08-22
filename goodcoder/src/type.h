@@ -12,7 +12,7 @@ namespace goodcoder{
 class Type{
 public:
     Type(){
-        _str_type = NONE;
+        _str_type = Form::NONE;
         _len = 0;
     }
     virtual ~Type(){};
@@ -20,7 +20,8 @@ public:
     Type(const Type&) = delete;
     Type& operator=(const Type&) = delete;
     virtual void print() = 0;
-private:
+    virtual int set_val(const std::string&) = 0;
+protected:
     Form _str_type;
     int _len;
 };

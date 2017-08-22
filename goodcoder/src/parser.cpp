@@ -19,13 +19,13 @@ namespace goodcoder{
             if (!judge_array(tmp, f)){
                 continue;   
             }else if(!judge_float(tmp)){
-                f = FLOAT;
+                f = Form::FLOAT;
                 continue;
             }else if(!judge_int(tmp)){
-                f = INT;
+                f = Form::INT;
                 continue;
             }else if(!judge_str(tmp)){
-                f = STRING;
+                f = Form::STRING;
                 continue;
             }
             //comlog warning TODO

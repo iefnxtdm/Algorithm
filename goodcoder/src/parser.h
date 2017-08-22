@@ -17,7 +17,8 @@ namespace goodcoder{
 class Parser{
 public:
     Parser(){
-        _store = make_shared(new vector<Type*>());  
+        auto p = new std::vector<Type*>();
+        _store = std::make_shared<std::vector<Type*>>(new std::vector<Type*>());  
     }
     ~Parser(){
         for(auto it : *_store){
@@ -25,11 +26,12 @@ public:
         }
         _store->clear();
     }
-    int parse(const std::string& line);
+    int parse(const std::string &line);
     int judge_int(const std::string& str);
     int judge_str(const std::string& str);
     int judge_float(const std::string& str);
     int judge_array(const std::string& str, Form& f);
+    void print(){}
     //TODO
     int judge_user(const std::string& str);
 private:
