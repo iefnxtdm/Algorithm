@@ -7,7 +7,7 @@
 #define GOODCODER_INCLUDE_PARSE_STRUCT_H
 namespace goodcoder{
 
-enum class Form{
+enum Form{
     INT,
     STRING,
     FLOAT,

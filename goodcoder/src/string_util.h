@@ -3,11 +3,26 @@
 /// @author sunminqi@baidu.com
 /// @version 1.0
 /// @date 2017-07-31
+
 #ifndef GOODCODER_SRC_STRING_UTIL_H
 #define GOODCODER_SRC_STRING_UTIL_H
+
 #include<vector>
 #include<string>
 #include<sstream>
+#include<com_log.h>
+typedef std::uint64_t hash_t;
+constexpr hash_t prime = 0x100000001B3ull;  
+constexpr hash_t basis = 0xCBF29CE484222325ull;
+//字符串hash
+constexpr hash_t hash_compile_time(char const* str, hash_t last_value = basis)  {  
+    return *str ? hash_compile_time(str+1, (*str ^ last_value) * prime) : last_value;  
+}
+
+constexpr unsigned long long operator "" _hash(char const* p, size_t) {  
+    return hash_compile_time(p);  
+} 
+
 class StringUtil{
 public:
 
@@ -47,8 +62,15 @@ public:
     ///
     /// @return
     static int str_to_int(const std::string& str, int &num){
-        std::stringstream ss(str);
+        if (str.size() == 0){
+            return -1;
+        }
+        std::stringstream ss;
+        ss<<str;
         ss>>num;
+        if (num == 2147483647 || num == -2147483648){
+            com_writelog(COMLOG_WARNING, "str=%s, num overload, output INTMAX", str.c_str());
+        }
         return 0;
     }
 
@@ -58,11 +80,14 @@ public:
     ///
     /// @return
     static int str_to_float(const std::string& str, float &num){
-        std::stringstream ss(str);
+        if (str.size() == 0){
+            return -1;
+        }
+        std::stringstream ss;
+        ss<<str;
         ss>>num;
         return 0;
     }
-
 };
 
 #endif

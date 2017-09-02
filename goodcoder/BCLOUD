@@ -1,0 +1,50 @@
+#edit-mode: -*- python -*-
+#coding:utf-8
+
+#工作路径.
+WORKROOT('../')
+
+#使用硬链接copy.
+CopyUsingHardLink(True)
+
+#支持32位/64位平台编译
+#ENABLE_MULTI_LIBS(True)
+
+#C预处理器参数.
+CPPFLAGS('-D_GNU_SOURCE -D__STDC_LIMIT_MACROS -D__STATIC=static -DVERSION=\\\"1.9.8.7\\\"')
+
+#C编译参数.
+CFLAGS('-g -pipe -W -Wall -fPIC')
+
+#C++编译参数.
+#CXXFLAGS('-g -O2 -Wall -W -Winline -pipe')
+CXXFLAGS('-g -Wall -W -pipe -std=c++11')
+
+#头文件路径.
+INCPATHS('. ./include  ./src')
+
+#使用库
+#LIBS('')
+
+#链接参数.
+LDFLAGS('-lpthread -lcrypto -lrt')
+
+CONFIGS('lib2-64/ullib')
+CONFIGS('public/configure@configure_1-2-20-34993_PD_BL@BCLOUD')
+CONFIGS('public/comlog-plugin@comlog-plugin_2-0-1-1_PD_BL@BCLOUD')
+CONFIGS('com/btest/gtest@gtest_1-1-3-0_PD_BL')
+
+user_sources=GLOB('src/*.cpp')
+user_headers=GLOB('include/*.h src/*.h')
+
+#可执行文件
+Application('parser',Sources(user_sources))
+TARGET('.copy-conf',
+ShellCommands('touch .copy-conf',
+'mkdir -p output/conf',
+'mkdir -p output/data',
+'cp -r conf output',
+'cp -r data output',
+),
+CleanCommands('rm -rf output/*'))
+

@@ -3,33 +3,39 @@
 /// @author sunminqi@baidu.com
 /// @version 1.0
 /// @date 2017-07-31
-#ifndef GOODCODER_SRC_TYPE_H
-#define GOODCODER_SRC_TYPE_H
+#ifndef GOODCODER_SRC_TYPE_FACTORY_H
+#define GOODCODER_SRC_TYPE_FACTORY_H
 
 #include"parse_struct.h"
 #include"type_spec.h"
-#include"type.h"
 namespace goodcoder{
 class TypeFactory{
 public:
-    Type* createType(Form f, const std::string& str, int len){
-        switch(f){
+    MyType* create_type(Form f, const std::string& str, int len){
+        MyType* tp = nullptr;
+        switch (f){
             case Form::INT:
-                return new TypeInt(str, 1);
+                tp = dynamic_cast<MyType*>(new TypeInt(str, 1));
+                break;
             case Form::FLOAT:
-                return new TypeFloat(str, 1);
+                tp = dynamic_cast<MyType*>(new TypeFloat(str, 1));
+                break;
             case Form::FLOAT_ARRAY:
-                return new TypeFloat(str, len);
+                tp = dynamic_cast<MyType*>(new TypeFloat(str, len));
+                break;
             case Form::INT_ARRAY:
-                return new TypeInt(str, len);
+                tp = dynamic_cast<MyType*>(new TypeInt(str, len));
+                break;
             case Form::STRING:
                 return new TypeStr(str, len);
-                //TODO user
+            case Form::USER:
+                return new TypeUser(str);
             default:
                 return nullptr;
         }
+        return tp;
     }
-private:
+
 };
 }
 #endif

@@ -1,0 +1,63 @@
+NOTICE: 08-28 14:55:39:  PARSE * 23115 --------------------------------------------------------------- open log ------------
+WARNING: 08-28 14:55:39:  PARSE * 23115 --------------------------------------------------------------- open log.wf ------------
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [3]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 for_split=3
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[3], res=[3]
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=int;len=1 | 3 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [3.5]
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=float;len=1 | 3.5 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [3:1,2,3]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 for_split=1,2,3
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[1], res=[1]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[2], res=[2]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[3], res=[3]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 array_len=3
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=int;len=3 | 1 2 3 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [string]
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=str | string
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [3	3.5	3:1,2,3	sting]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 for_split=3
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[3], res=[3]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 for_split=1,2,3
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[1], res=[1]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[2], res=[2]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[3], res=[3]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 array_len=3
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=int;len=1 | 3 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=float;len=1 | 3.5 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=int;len=3 | 1 2 3 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=str | sting
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [3:2.3,6.444,4.242123]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 array_len=3
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=float;len=3 | 2.3 6.444 4.24212 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [	2d	3.21d	123145124141213123	2.33333333333333333333]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 for_split=123145124141213123
+WARNING: 08-28 14:55:39:  PARSE * 23115 str=123145124141213123, num overload, output INTMAX
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[123145124141213123], res=[2147483647]
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=str | 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=str | 2d
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=str | 3.21d
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=int;len=1 | 2147483647 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=float;len=1 | 2.33333 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [-2333	-6.23]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 for_split=-2333
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[-2333], res=[-2333]
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=int;len=1 | -2333 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=float;len=1 | -6.23 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line = [2314223-32232333]
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=user | 2314223-32232333
+NOTICE: 08-28 14:55:39:  PARSE * 23115 format type=[int	float	int:3	float:2	string]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 array_type type=3, len=3
+DEBUG: 08-28 14:55:39:  PARSE * 23115 array_type type=4, len=2
+NOTICE: 08-28 14:55:39:  PARSE * 23115 source line=[333	4.4	3:1,2,3	2:5.4,3.6	sd]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 for_split=333
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[333], res=[333]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 for_split=1,2,3
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[1], res=[1]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[2], res=[2]
+DEBUG: 08-28 14:55:39:  PARSE * 23115 str=[3], res=[3]
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=int;len=1 | 333 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=float;len=1 | 4.4 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=int;len=3 | 1 2 3 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=float;len=2 | 5.4 3.6 
+NOTICE: 08-28 14:55:39:  PARSE * 23115 var=str | sd
