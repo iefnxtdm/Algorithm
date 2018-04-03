@@ -2,7 +2,7 @@ from __future__ import print_function
 import tensorflow as tf
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
+mnist = input_data.read_data_sets("D:\mnist", one_hot=True)
 
 # Parameters
 learning_rate = 0.01
@@ -14,14 +14,13 @@ display_step = 1
 x = tf.placeholder(tf.float32, [None, 784]) # mnist data image of shape 28*28=784
 y = tf.placeholder(tf.float32, [None, 10]) # 0-9 digits recognition => 10 classes
 
-W = tf.variable(tf.zeros([784, 10]))
-b = tf.variable(tf.zeros([10]))
-
-hx = tf.add(tf.multiply(W, x), b)
+W = tf.Variable(tf.zeros([784, 10]))
+b = tf.Variable(tf.zeros([10]))
+hx = tf.nn.softmax(tf.add(tf.matmul(x, W), b))
 init = tf.global_variables_initializer()
 #cost function
 #如果多个类别中，各个类别是可以相互包含的则使用logistic回归，如果是互斥的则使用softmax回归
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels = hx, logits = y))
+cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(hx), reduction_indices=1))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
 '''
@@ -40,7 +39,7 @@ with tf.Session() as sess:
     sess.run(init)
 
     for i in range(training_epochs): #训练轮数
-        batch_num = mnist.train.num_examples / batch_size
+        batch_num = int(mnist.train.num_examples / batch_size)
         avg_cost = 0
         for j in range(batch_num):
             batch_x, batch_y = mnist.train.next_batch(batch_size)
