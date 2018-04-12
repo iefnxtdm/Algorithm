@@ -64,3 +64,4 @@ with tf.Session() as sess:
     print("optimization finish")
 
     print("test accuracy:", sess.run(accuracy, feed_dict={X:mnist.test.images, Y:mnist.test.labels}))
+
