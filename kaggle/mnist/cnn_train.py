@@ -87,25 +87,38 @@ LEARNING_RATE_BASE = 0.8
 LEARNING_RATE_DECAY = 0.99
 TRAINING_STEPS = 30000
 MOVING_AVERAGE_DECAY = 0.99 #滑动平均， 减少过拟合
-BATCH_SIZE = 100
+BATCH_SIZE = 128
 MODEL_SAVE_PATH = "D:/kaggle/mnist/"
 MODEL_NAME = "model.ckpt"
+
+#写一个对Label进行one-hot处理的函数  
+def dense_to_one_hot(labels_dense,num_classes):  
+    num_labels = labels_dense.shape[0]  
+    index_offset = np.arange(num_labels) * num_classes  
+    labels_one_hot = np.zeros((num_labels,num_classes))  
+    labels_one_hot.flat[index_offset + labels_dense.ravel()] = 1  
+    return labels_one_hot  
+  
 def train(mnist):
-    x = tf.placeholder(tf.float32, [BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, NUM_CHANNELS], name = 'x-input')
+    x = tf.placeholder(tf.float32, [BATCH_SIZE, IMAGE_SIZE * IMAGE_SIZE], name = 'x-input')
     y_ = tf.placeholder(tf.float32, [None, OUTPUT_NODE], name= 'y-input')
     regularizer = tf.contrib.layers.l2_regularizer(REGULARAZTION_RATE)
 
     y = inference(x, True, regularizer)
     global_step = tf.Variable(0, trainable=False)
-    df = mnist['label']
     data_np = mnist.as_matrix()
-    data_y = pd.get_dummies(mnist['label']).as_matrix() #number->one hot 
-    data_x = data_np[:,1:] #pixel
+    data_y = dense_to_one_hot(mnist.iloc[:,0].values, 10)
+    #data_y = tf.one_hot(mnist['label'].as_matrix(),10,1,0) 
+    print(data_y[3])
+    data_x = data_np[:,1:]#pixel
+    data_x = np.multiply(data_x, 1.0/255) #0-255-》0-1
+
     print("total data_num=%d" % data_y.shape[0])
-    num_examples = data_y.shape[0]
-    variable_averages = tf.train.ExponentialMovingAverage(MOVING_AVERAGE_DECAY, global_step)
-    variables_averages_op = variable_averages.apply(tf.trainable_variables())
-    cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=y, labels=tf.argmax(y_, 1))
+    num_examples = data_x.shape[0]
+    #滑动平均， 用来解决过拟合的。。不过这里还是欠拟合， 先注释了
+    #variable_averages = tf.train.ExponentialMovingAverage(MOVING_AVERAGE_DECAY, global_step)
+    #variables_averages_op = variable_averages.apply(tf.trainable_variables())
+    cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=y, labels=y_)
     cross_entropy_mean = tf.reduce_mean(cross_entropy)
     loss = cross_entropy_mean + tf.add_n(tf.get_collection('losses'))
     learning_rate = tf.train.exponential_decay(
@@ -114,8 +127,8 @@ def train(mnist):
         num_examples / BATCH_SIZE, LEARNING_RATE_DECAY,
         staircase=True)
     train_step = tf.train.AdamOptimizer(learning_rate).minimize(loss, global_step=global_step)
-    with tf.control_dependencies([train_step, variables_averages_op]):
-        train_op = tf.no_op(name='train')
+    #with tf.control_dependencies([train_step, variables_averages_op]):
+    #    train_op = tf.no_op(name='train')
 
 
     saver = tf.train.Saver()
@@ -123,6 +136,13 @@ def train(mnist):
         tf.global_variables_initializer().run()
         
         index_in_epoch = 0
+        #for i in range(TRAINING_STEPS):
+        #    #batch decent
+        #    print("epoch:%d"%i)  
+        #    for batch in range(int(num_examples/BATCH_SIZE)): 
+        #        batch_x = data_x[(batch)*BATCH_SIZE:(batch+1)*BATCH_SIZE]  
+        #        batch_y = data_y[(batch)*BATCH_SIZE:(batch+1)*BATCH_SIZE]  
+        #        _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: batch_x, y_: batch_y})        for i in range(TRAINING_STEPS):
         for i in range(TRAINING_STEPS):
             #batch decent
             start = index_in_epoch
@@ -136,15 +156,14 @@ def train(mnist):
                 index_in_epoch = BATCH_SIZE
                 assert BATCH_SIZE <= num_examples
             end = index_in_epoch
-            xs = np.reshape(data_x[start:end], (BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, NUM_CHANNELS))
              
-            _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: data_y[start:end]})
+            loss_value, step = sess.run([loss, global_step], feed_dict={x: data_x[start:end], y_: data_y[start:end]})
             if i % 1000 == 0:
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), global_step=global_step)
 
 
-def main(argv=None):
+def main(argv):
     data_train = pd.read_csv('D:/kaggle/mnist/train.csv')
     #data_np = data_train.as_matrix()
     #pixel[0].size 784 nparray 
