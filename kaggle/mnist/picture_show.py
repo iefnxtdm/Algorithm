@@ -14,5 +14,5 @@ print("Train Sample:",X_train.shape[0])
 # 归一化：将数据进行归一化到0-1 因为图像数据最大是255
 X_train=X_train/255.0
 # 将类别向量(从0到nb_classes的整数向量)映射为二值类别矩阵
-plt.imshow(X_train[3429][:,:,0], cmap="Greys")
+plt.imshow(X_train[0][:,:,0], cmap="Greys")
 plt.show()

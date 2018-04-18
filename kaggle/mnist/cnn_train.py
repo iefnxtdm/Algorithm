@@ -14,7 +14,7 @@ CONV1_DEEP = 32
 CONV1_SIZE = 5
 # 第二层
 CONV2_DEEP = 64
-CONV2_SIZE = 5
+CONV2_SIZE = 3
 # FC
 FC_SIZE = 512
 
@@ -27,7 +27,7 @@ def inference(input_tensor, train, regularizer):
             [CONV1_SIZE, CONV1_SIZE, NUM_CHANNELS, CONV1_DEEP], 
             initializer=tf.truncated_normal_initializer(stddev=0.1))
         conv1_bias = tf.get_variable("bias", [CONV1_DEEP],  
-            initializer=tf.constant_initializer(0.0))
+            initializer=tf.constant_initializer(0.1))
         #strides步长为1， padding全0填充
         conv1 = tf.nn.conv2d(X, conv1_weights, strides=[1,1,1,1], padding = 'SAME')
         relu1 = tf.nn.relu(tf.nn.bias_add(conv1, conv1_bias))
@@ -43,7 +43,7 @@ def inference(input_tensor, train, regularizer):
             [CONV2_SIZE, CONV2_SIZE, CONV1_DEEP, CONV2_DEEP],
             initializer=tf.truncated_normal_initializer(stddev=0.1))
         conv2_bias = tf.get_variable("bias", [CONV2_DEEP],
-            initializer=tf.constant_initializer(0.0))
+            initializer=tf.constant_initializer(0.1))
         conv2 = tf.nn.conv2d(pool1, conv2_weights, strides=[1,1,1,1], padding = 'SAME')
         relu2 = tf.nn.relu(tf.nn.bias_add(conv2, conv2_bias))
 
@@ -83,7 +83,7 @@ def inference(input_tensor, train, regularizer):
 
 
 REGULARAZTION_RATE = 0.0001
-LEARNING_RATE_BASE = 0.8
+LEARNING_RATE_BASE = 0.5
 LEARNING_RATE_DECAY = 0.99
 TRAINING_STEPS = 30000
 MOVING_AVERAGE_DECAY = 0.99 #滑动平均， 减少过拟合
@@ -157,7 +157,7 @@ def train(mnist):
                 assert BATCH_SIZE <= num_examples
             end = index_in_epoch
              
-            loss_value, step = sess.run([loss, global_step], feed_dict={x: data_x[start:end], y_: data_y[start:end]})
+            _, loss_value, step = sess.run([train_step, loss, global_step], feed_dict={x: data_x[start:end], y_: data_y[start:end]})
             if i % 1000 == 0:
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), global_step=global_step)
