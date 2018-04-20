@@ -3,5 +3,6 @@
         "iterator": "cpp",
         "vector": "cpp",
         "memory": "cpp"
-    }
+    },
+    "python.formatting.provider": "autopep8"
 }
