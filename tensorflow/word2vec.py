@@ -7,6 +7,7 @@ import connections
 import math
 import zipfile
 import os
+import pickle as pkl
 
 # constant
 FILE_NAME = "D:/kaggle/rnn/enwiki8.zip"
