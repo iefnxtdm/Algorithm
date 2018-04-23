@@ -53,7 +53,7 @@ class word2vec():
     def init_op(self):
         self.sess = tf.Session(graph=self.graph)
         self.sess.run(self.init)
-        self.summary_writer = tf.train.SummaryWriter(self.logdir, self.sess.graph)  # 用于tensorboard
+        self.summary_writer = tf.summary.FileWriter(self.logdir, self.sess.graph)  # 用于tensorboard
 
     def build_graph(self):
         self.graph = tf.Graph()
@@ -78,14 +78,14 @@ class word2vec():
                                num_classes=self.vocab_size
                                )
             )
-            tf.scalar_summary('loss', self.loss)
+            tf.summary.scalar('loss', self.loss)
             self.train_op = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(self.loss)
 
             # 指定和若干单词相似度
             self.test_word_id = tf.placeholder(tf.int32, shape=[None])
             vec_l2_model = tf.sqrt(tf.reduce_sum(tf.square(self.embedding_dict), 1, keep_dims=True))
             avg_l2_model = tf.reduce_mean(vec_l2_model)
-            tf.scalar_summary('avg_vec_model', avg_l2_model)
+            tf.summary.scalar('avg_vec_model', avg_l2_model)
 
             self.normed_embedding = self.embedding_dict / vec_l2_model  # 向量单位化
             test_embed = tf.nn.embedding_lookup(self.normed_embedding, self.test_word_id)
@@ -93,7 +93,7 @@ class word2vec():
 
             # 变量初始化
             self.init = tf.global_variables_initializer()
-            self.merged_summary_op = tf.merge_all_summaries()
+            self.merged_summary_op = tf.summary.merge_all()
             self.saver = tf.train.Saver()
 
     def train_by_sentence(self, input_sentence=[]):
